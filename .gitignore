@@ -1,3 +1,10 @@
+2048
+
+# flex/yacc
+lex.yy.c
+y.tab.c
+y.tab.h
+
 # Prerequisites
 *.d
 
