@@ -81,11 +81,15 @@ void name_tile(char * name, int row, int col){
 	if(0<=row && row<4 && 0<=col && col<4){
         if(state[row][col] == 0){
             printf("[line %d] error: can not name an empty tile\n", yylineno);
+            fprintf(stderr, "-1\n");
             return;
         }
         tile_name[row][col] = insert_name(tile_name[row][col], name);
-		print_state(state);
+        printf("Thanks, naming done.\n");
+		print_state();
+	    print_state_flat();
 	} else {
-		printf("[line %d] There is no tile like that. The tile co-ordinates must be in the range 1,2,3,4.\n", yylineno);
+		printf("There is no tile like that. The tile co-ordinates must be in the range 1,2,3,4.\n");
+        fprintf(stderr, "-1\n");
 	}
 }

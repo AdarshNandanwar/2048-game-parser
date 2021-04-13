@@ -26,3 +26,10 @@ VAR <varname> IS <x>,<y>.
 VALUE IN <x>,<y>.
 ```
 - `VALUE` command may be used inside `ASSIGN` command.
+
+## Usage
+```
+make clean
+make
+make run
+```

@@ -57,7 +57,8 @@ QUERY	: number												{$$ = $1;}
 ## Doubts
 - should variable names be unique?
 - variable names consists of what all ASCII codes (for trie)?
-- can you name an empty tile?
+- **How can you name an empty tile?**
 - output format (spaces) for the variables if there are multiple present
 - make `\n` a part of the grammer?
 - 1.1 part 2
+- is variable to value mapping required?

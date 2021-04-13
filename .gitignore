@@ -1,9 +1,13 @@
 2048
+tile_name.o
+board.o
 
 # flex/yacc
 lex.yy.c
 y.tab.c
 y.tab.h
+parser.tab.c
+parser.tab.h
 
 # Prerequisites
 *.d

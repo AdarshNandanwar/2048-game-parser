@@ -1,0 +1,8 @@
+Hi, Good Morning!
+Add Left
+ADD LEFT
+ADD LEFT.
+ASSIGN 7 TO 5,6.
+ASSIGN 7 TO 4,3.
+VAR IS IS 1,2.
+VAR is IS 1,2.

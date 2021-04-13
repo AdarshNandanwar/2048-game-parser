@@ -19,7 +19,6 @@ void initialize_state(){
 		tile_name_trie_head->next[i] = NULL;
 	}
 	insert_random_tile();
-	print_state();
 }
 
 void insert_random_tile(){
@@ -120,7 +119,7 @@ void operate_left(char oper){
 }
 
 void make_move(char oper, char dir){
-	printf("moving %c using %c\n", dir, oper);
+	// printf("moving %c using %c\n", dir, oper);
 	switch(dir){
 		case 'L': {
 			shift_left();
@@ -156,7 +155,16 @@ void make_move(char oper, char dir){
 		}
 	}
 	insert_random_tile();
+	printf("Thanks, ");
+	switch(dir){
+		case 'L': printf("left"); break;
+		case 'R': printf("right"); break;
+		case 'U': printf("up"); break;
+		case 'D': printf("down"); break;
+	}
+	printf(" move done, random tile added.\n");
 	print_state();
+	print_state_flat();
 }
 
 int get_value(int row, int col){
@@ -164,23 +172,31 @@ int get_value(int row, int col){
 	if(0<=row && row<4 && 0<=col && col<4){
 		return state[row][col];
 	} else {
-		printf("[line %d] error: There is no tile like that. The tile co-ordinates must be in the range 1,2,3,4.\n", yylineno);
+		printf("There is no tile like that. The tile co-ordinates must be in the range 1,2,3,4.\n");
+		fprintf(stderr, "-1\n");
 		return -1;
 	}
 }
 
 void assign_value(int val, int row, int col){
-	printf("assigning value %d to <%d, %d>\n", val, row+1, col+1); 
+	if(val == -1){
+		// error occured in QUERY production
+		return;
+	}
+	// printf("assigning value %d to <%d, %d>\n", val, row+1, col+1); 
 	if(0<=row && row<4 && 0<=col && col<4){
 		state[row][col] = val;
-		print_state(state);
+		printf("Thanks, assignment done.\n");
+		print_state();
+		print_state_flat();
 	} else {
-		printf("[line %d] error: There is no tile like that. The tile co-ordinates must be in the range 1,2,3,4.\n", yylineno);
+		printf("There is no tile like that. The tile co-ordinates must be in the range 1,2,3,4.\n");
+		fprintf(stderr, "-1\n");
 	}
 }
 
 void print_state(){
-	printf("---------------------------------\n");
+	printf("The current state is:\n---------------------------------\n");
 	for(int i = 0; i<4; i++){
 		for(int j = 0; j<4; j++){
 			if(state[i][j] == 0){
@@ -191,15 +207,13 @@ void print_state(){
 		}
 		printf("|\n---------------------------------\n");
 	}
-	print_state_flat();
-	printf("\n");
 }
 
 void print_state_flat(){
 	// print tile values
 	for(int i = 0; i<4; i++){
 		for(int j = 0; j<4; j++){
-			printf("%d ", state[i][j]);
+			fprintf(stderr, "%d ", state[i][j]);
 		}
 	}
 	// print variable names
@@ -207,10 +221,10 @@ void print_state_flat(){
 		for(int j = 0; j<4; j++){
 			TileNameNode * head = tile_name[i][j];
 			while(head){
-				printf("%d,%d%s ", i+1, j+1, head->name);
+				fprintf(stderr, "%d,%d%s ", i+1, j+1, head->name);
 				head = head->next;
 			}
 		}
 	}
-	printf("\n");
+	fprintf(stderr, "\n");
 }

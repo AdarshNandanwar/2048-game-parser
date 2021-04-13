@@ -29,31 +29,51 @@ int DEBUG = 0;
 
 /* Grammer definitions */
 
-PROGRAM	: PROGRAM LINE '.' '\n'									{;}
-		| PROGRAM error '.' '\n'								{printf("[line %d] invalid command\n", yylineno-1); yyerrok;}
-		| PROGRAM error	'\n'									{printf("[line %d] You need to end the command with a full-stop.\n", yylineno-1);}
+PROGRAM	: PROGRAM LINE '\n'										{;}
+		| PROGRAM error '.' '\n'								{printf("Syntax error.\n"); yyerrok; fprintf(stderr, "-1\n");}
+		| PROGRAM error	'\n'									{printf("You need to end the command with a full-stop.\n"); fprintf(stderr, "-1\n");}
 		| /* empty */											{;}
 		;
 
-LINE	: operator direction									{make_move($1, $2);}
-		| assign_token QUERY to_token number ',' number			{assign_value($2, $4-1, $6-1);}
-		| var_token identifier is_token number ',' number		{name_tile($2, $4-1, $6-1);}
-		| value_token in_token number ',' number				{printf("value in <%d,%d> is %d\n", $3, $5, get_value($3-1, $5-1));}
+LINE	: operator direction '.'								{make_move($1, $2);}
+		| assign_token QUERY to_token number ',' number '.'		{assign_value($2, $4-1, $6-1);}
+		| var_token identifier is_token number ',' number '.'	{name_tile($2, $4-1, $6-1);}
+		| value_token in_token number ',' number '.'			{
+																	int val = get_value($3-1, $5-1);
+																	if(val != -1){
+																		printf("Value in <%d,%d> is %d\n", $3, $5, val);
+																	} else {
+																		printf("There is no tile like that. The tile co-ordinates must be in the range 1,2,3,4.\n");
+																		fprintf(stderr, "-1\n");
+																	}
+																}
 		;
 
 QUERY	: number												{$$ = $1;}
-		| value_token in_token number ',' number				{int val = get_value($3-1, $5-1); if(DEBUG) printf("value in <%d,%d> is %d\n", $3, $5, val); $$ = val;}
+		| value_token in_token number ',' number				{
+																	int val = get_value($3-1, $5-1); 
+																	if(val != -1){
+																		if(DEBUG) printf("Value in <%d,%d> is %d\n", $3, $5, val);
+																	} else {
+																		printf("There is no tile like that. The tile co-ordinates must be in the range 1,2,3,4.\n");
+																		fprintf(stderr, "-1\n");
+																	}
+																	$$ = val;
+																}
 		;
 
 %%                     
 /* C code */
 
 void yyerror(char *s) {
-	printf("[line %d] error: %s\n", yylineno, s);
+	// printf("[line %d] error: %s\n", yylineno, s);
+	printf("Sorry, I don’t understand that.\n");
 } 
 
 int main (void) {
 	srand(time(0));
 	initialize_state(state);
+	printf("Hi, I am the 2048-game Engine.\n");
+	print_state();
 	return yyparse();
 }
