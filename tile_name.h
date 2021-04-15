@@ -28,5 +28,6 @@ void trie_erase_list(TileNameNode * list_head);
 
 
 extern void name_tile(char * name, int row, int col);
+extern void print_trie();
 
 #endif

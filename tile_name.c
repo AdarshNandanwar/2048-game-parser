@@ -50,14 +50,34 @@ void trie_erase_list(TileNameNode * list_head){
     }
 }
 
+void traverse_trie(TileNameTrieNode * root, char * str)
+{
+    if(root == NULL) return;
+    int len = strlen(str);
+    if(root->is_word){
+        printf("%s ", str);
+    }
+    for(int i = 0; i<128; i++){
+        int len = strlen(str);
+        str[len] = (char)i;
+        str[len+1] = '\0';
+        traverse_trie(root->next[i], str);
+        str[len] = '\0';
+    }
+}
+
+void print_trie(){
+    char * str = (char *) malloc(1024*sizeof(char));
+    printf("Variables in Trie: ");
+    traverse_trie(tile_name_trie_head, str);
+    printf("\n");
+}
+
 // list funtions
 
 TileNameNode * insert_name(TileNameNode * head, char * name){
     int status = trie_insert(name);
-    if(status == 0){
-        throw_error("Variable redeclaration.");
-        return head;
-    }
+    if(status == 0) return head;
     TileNameNode * new_node = (TileNameNode *) malloc(sizeof(TileNameNode));
     new_node->name = strdup(name);
     new_node->next = head;
@@ -84,10 +104,13 @@ void name_tile(char * name, int row, int col){
             throw_error("Can not name an empty tile.");
             return;
         }
+        TileNameNode * old_head = tile_name[row][col];
         tile_name[row][col] = insert_name(tile_name[row][col], name);
-        printf("2048> Tile <%d,%d> named as \"%s\".\n", row+1, col+1, name);
-		print_state();
-	    print_state_flat();
+        if(old_head != tile_name[row][col]){
+            printf("2048> Tile <%d,%d> named as \"%s\".\n", row+1, col+1, name);
+        } else {
+            throw_error("Variable name redeclaration. Select a new variable name.");
+        }
 	} else {
         throw_error("Invalid co-ordinates. The tile co-ordinates must be in the range {1,2,3,4}.");
 	}

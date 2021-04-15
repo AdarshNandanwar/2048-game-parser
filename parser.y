@@ -27,6 +27,7 @@ struct CoordinateStruct make_coordinate(int row, int col);
 }
 %union {
 	int num;
+	double decimal;
 	char id;
 	char * str;
 	struct CoordinateStruct coordinate;
@@ -44,6 +45,7 @@ struct CoordinateStruct make_coordinate(int row, int col);
 %token <num> integer operator direction
 %type <num> PROGRAM LINE QUERY KEYWORD
 %type <coordinate> COORDINATE
+%type <decimal> float_token
 
 %%
 
@@ -58,25 +60,24 @@ PROGRAM	: PROGRAM LINE '\n'										{; yyerrok; YYACCEPT;}
 
 LINE	: operator direction '.'								{make_move($1, $2);}
 		| operator identifier '.'								{throw_error("Invalid direction. Choose a direction among {\"LEFT\", \"RIGHT\", \"UP\", \"DOWN\"}.");}
-		| identifier direction '.'								{throw_error("Invalid operation. Choose an operation among {\"ADD\", \"SUBTRACT\", \"MULTIPLY\", \"DIVIDE\"}.");}
 		| operator '.'											{throw_error("Direction not specified. Choose a direction among {\"LEFT\", \"RIGHT\", \"UP\", \"DOWN\"}.");}
 		| direction '.'											{throw_error("Operation not specified. Choose an operation among {\"ADD\", \"SUBTRACT\", \"MULTIPLY\", \"DIVIDE\"}.");}
 		
 		| assign_token QUERY to_token COORDINATE '.'			{assign_value($2, $4.row-1, $4.col-1);}
-		| assign_token QUERY identifier COORDINATE '.'			{throw_error("TO keyword expected.");}
-		| identifier QUERY to_token COORDINATE '.'				{throw_error("ASSIGN keyword expected.");}
+		| assign_token to_token COORDINATE '.'					{throw_error("Value not specified. Value must be a non negative integer.");}
+		| assign_token QUERY identifier COORDINATE '.'			{throw_error("\"TO\" keyword expected.");}
 
 		| var_token identifier is_token COORDINATE '.'			{name_tile($2, $4.row-1, $4.col-1);}
 		| var_token KEYWORD is_token COORDINATE '.'				{throw_error("Variable name can not be a keyword.");}
-		| var_token identifier identifier COORDINATE '.'		{throw_error("IS keyword expected.");}
-		| identifier identifier is_token COORDINATE '.'			{throw_error("VAR keyword expected.");}
+		| var_token KEYWORD COORDINATE '.'						{throw_error("Variable name can not be a keyword."); throw_error("\"IS\" keyword expected.");}
+		| var_token identifier identifier COORDINATE '.'		{throw_error("\"IS\" keyword expected.");}
 
 		| value_token in_token COORDINATE '.'					{
 																	int val = get_value($3.row-1, $3.col-1);
 																	if(val != -1) printf("2048> Value in <%d,%d> is %d\n", $3.row, $3.col, val);
 																}
-		| identifier in_token COORDINATE '.'					{throw_error("VALUE keyword expected.");}
-		| value_token identifier COORDINATE '.'					{throw_error("IN keyword expected.");}
+		| value_token identifier COORDINATE '.'					{throw_error("\"IN\" keyword expected.");}
+		| value_token COORDINATE '.'							{throw_error("\"IN\" keyword expected.");}
 		;
 
 QUERY	: integer												{
@@ -85,28 +86,23 @@ QUERY	: integer												{
 																}
 		| float_token											{throw_error("Tile value can only be a non-negative integer."); $$ = -1;}
 		| value_token in_token COORDINATE						{
-																	int val = get_value($3.row-1, $3.col-1); 
-																	if(val != -1){
-																		if(DEBUG) printf("2048> Value in <%d,%d> is %d\n", $3.row, $3.col, val);
-																	}
+																	int val = get_value($3.row-1, $3.col-1);
 																	$$ = val;
 																}
-		| identifier in_token COORDINATE						{throw_error("VALUE keyword expected."); $$ = -1;}
-		| value_token identifier COORDINATE						{throw_error("IN keyword expected."); $$ = -1;}
+		| value_token identifier COORDINATE						{throw_error("\"IN\" keyword expected."); $$ = -1;}
+		| value_token COORDINATE								{throw_error("\"IN\" keyword expected."); $$ = -1;}
 		;
 	
 COORDINATE	: integer ',' integer								{
-																	if($1 < 0 || $3 < 0){
-																		if($1 < 0) printf("ERROR: Row number can not be negative.\n");
-																		if($3 < 0) printf("ERROR: Column number can not be negative.\n");
-																		$$ = make_coordinate(-1, -1);
-																	} else {
+																	if(check_negative($1, $3)){
 																		$$ = make_coordinate($1, $3);
+																	} else {
+																		$$ = make_coordinate(-1, -1);
 																	}
 																}
-			| float_token ',' integer							{$$ = make_coordinate(-1, -1); printf("ERROR: Floating point numbers not allowed.\n");}
-			| integer ',' float_token							{$$ = make_coordinate(-1, -1); printf("ERROR: Floating point numbers not allowed.\n");}
-			| float_token ',' float_token						{$$ = make_coordinate(-1, -1); printf("ERROR: Floating point numbers not allowed.\n");}
+			| float_token ',' integer							{$$ = make_coordinate(-1, -1); check_negative($1, $3); throw_error("Floating point numbers not allowed.");}
+			| integer ',' float_token							{$$ = make_coordinate(-1, -1); check_negative($1, $3); throw_error("Floating point numbers not allowed.");}
+			| float_token ',' float_token						{$$ = make_coordinate(-1, -1); check_negative($1, $3); throw_error("Floating point numbers not allowed.");}
 			;
 
 KEYWORD	: operator												{;}
@@ -122,13 +118,17 @@ KEYWORD	: operator												{;}
 %%                     
 /* C code */
 
-void yyerror(char *s) {
-	printf("ERROR: Syntax error at token \"%s\".\n", (strcmp(yytext, "\n")?yytext:"\\n"));
+void yyerror(char * msg) {
+	if(!strcmp(yytext, "\n")) return;
+	if(IS_ERROR) printf("       Syntax error at token \"%s\".\n", yytext);
+	else printf("ERROR: Syntax error at token \"%s\".\n", yytext);
+	IS_ERROR = 1;
 } 
 
 void throw_error(char * msg){
-	printf("ERROR: %s\n", msg);
-	fprintf(stderr, "-1\n");
+	if(IS_ERROR) printf("       %s\n", msg);
+	else printf("ERROR: %s\n", msg);
+	IS_ERROR = 1;
 }
 
 struct CoordinateStruct make_coordinate(int row, int col){
@@ -136,6 +136,17 @@ struct CoordinateStruct make_coordinate(int row, int col){
 	node.row = row;
 	node.col = col;
 	return node;
+}
+
+int check_negative(double row, double col){
+	// 0: invalid, 1: valid
+	if(DEBUG) printf("\n%f %f\n", row, col);
+	if(row < 0 || col < 0){
+		if(row < 0) throw_error("Row number can not be negative.");
+		if(col < 0) throw_error("Column number can not be negative.");
+		return 0;
+	}
+	return 1;
 }
 
 int main (void) {
@@ -146,11 +157,25 @@ int main (void) {
 	printf("#################################\n\n");
 	print_state();
 
-	int status = 0;
+	int status = 0, command_count = 0;
 	while(!status){
-		printf("\n2048> Enter a command:\n----> ");
+		IS_ERROR = 0;
+		printf("\n2048> Enter a command:\n");
+		printf("----> ");
 		status = yyparse();
-		printf("[break] status: %d\n", status);
+		if(!status){
+			// if not <<EOF>>
+			command_count++;
+			if(IS_ERROR){
+				fprintf(stderr, "-1\n");
+			} else{
+				print_state();
+				print_state_flat();
+			}
+			if(DEBUG) print_trie();
+		}
+		// printf("[break] status: %d\n", status);
 	}
+	printf("2048> Exiting. Total commands given: %d\n", command_count);
 	return 0;
 }

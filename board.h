@@ -1,7 +1,6 @@
 #ifndef BOARD_HEADER
 #define BOARD_HEADER
 
-extern int DEBUG;
 extern int state[4][4];
 
 extern void initialize_state();

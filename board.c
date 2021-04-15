@@ -5,6 +5,7 @@
 #include "common_header.h"
 
 extern int yylineno;
+extern int DEBUG;
 int state[4][4];
 
 void initialize_state(){
@@ -107,8 +108,11 @@ void operate_left(char oper){
                         case 'M': state[i][left] *= state[i][j]; break;
                         case 'D': state[i][left] /= state[i][j]; break;
                     }
-					merge_name(tile_name[i][left], tile_name[i][j]);
-					trie_erase_list(tile_name[i][j]);
+					tile_name[i][left] = merge_name(tile_name[i][left], tile_name[i][j]);
+					if(oper == 'S'){
+						trie_erase_list(tile_name[i][left]);
+						tile_name[i][left] = NULL;
+					} 
 					tile_name[i][j] = NULL;
 					state[i][j] = 0; 
                 }
@@ -154,7 +158,7 @@ void make_move(char oper, char dir){
 			break;
 		}
 	}
-	insert_random_tile();
+	if(!DEBUG) insert_random_tile();
 	printf("2048> Moved ");
 	switch(dir){
 		case 'L': printf("left"); break;
@@ -170,8 +174,7 @@ void make_move(char oper, char dir){
 		case 'D': printf("division"); break;
 	}
 	printf(". Random tile added.\n");
-	print_state();
-	print_state_flat();
+	// print_state();
 }
 
 int get_value(int row, int col){
@@ -192,8 +195,11 @@ void assign_value(int val, int row, int col){
 	if(0<=row && row<4 && 0<=col && col<4){
 		state[row][col] = val;
 		printf("2048> Assigned the value %d to <%d,%d>.\n", val, row+1, col+1);
-		print_state();
-		print_state_flat();
+		if(val == 0){
+			trie_erase_list(tile_name[row][col]);
+			tile_name[row][col] = NULL;
+		}
+		// print_state();
 	} else {
 		throw_error("Invalid co-ordinates. The tile co-ordinates must be in the range {1,2,3,4}.");
 	}

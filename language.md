@@ -22,62 +22,68 @@ ASSIGN <value> TO <x>,<y>.
 VAR <varname> IS <x>,<y>.
 VALUE IN <x>,<y>.
 ```
-## Pattern
-```
-operation direction.
-ASSIGN QUERY TO number,number.
-VAR identifier IS number,number.
-VALUE IN number,number.
-```
 ## Grammer
-### Old (PROGRAM version)
+### Current
 ```
 
+/* Grammer definitions */
+
 PROGRAM	: PROGRAM LINE '\n'										{; yyerrok; YYACCEPT;}
-		| PROGRAM error '.' '\n'								{printf("[line %d] error: Invalid command\n", yylineno); yyerrok; fprintf(stderr, "-1\n"); YYACCEPT;}
-		| PROGRAM error	'\n'									{printf("[line %d] error: Command must end with a full-stop.\n", yylineno); yyerrok; fprintf(stderr, "-1\n"); YYACCEPT;}
+		| PROGRAM error '.' '\n'								{throw_error("Invalid command."); yyerrok; YYACCEPT;}
+		| PROGRAM error '\n'									{throw_error("Command must end with a full-stop."); yyerrok; YYACCEPT;}
 		| end_of_file											{printf("EOF\n"); YYABORT;}
-		| /* empty */											{printf("empty_used\n");}
+		| /* empty */											{;}
 		;
 
 LINE	: operator direction '.'								{make_move($1, $2);}
-		| operator error '.'									{printf("[line %d] error: Invalid direction.\n", yylineno); fprintf(stderr, "-1\n");}
-		| error direction '.'									{printf("[line %d] error: Invalid operator.\n", yylineno); fprintf(stderr, "-1\n");}
+		| operator identifier '.'								{throw_error("Invalid direction. Choose a direction among {\"LEFT\", \"RIGHT\", \"UP\", \"DOWN\"}.");}
+		| identifier direction '.'								{throw_error("Invalid operation. Choose an operation among {\"ADD\", \"SUBTRACT\", \"MULTIPLY\", \"DIVIDE\"}.");}
+		| operator '.'											{throw_error("Direction not specified. Choose a direction among {\"LEFT\", \"RIGHT\", \"UP\", \"DOWN\"}.");}
+		| direction '.'											{throw_error("Operation not specified. Choose an operation among {\"ADD\", \"SUBTRACT\", \"MULTIPLY\", \"DIVIDE\"}.");}
+		
+		| assign_token QUERY to_token COORDINATE '.'			{assign_value($2, $4.row-1, $4.col-1);}
+		| assign_token QUERY identifier COORDINATE '.'			{throw_error("TO keyword expected.");}
+		| identifier QUERY to_token COORDINATE '.'				{throw_error("ASSIGN keyword expected.");}
 
-		| assign_token QUERY to_token number ',' number '.'		{assign_value($2, $4-1, $6-1);}
-		| assign_token error to_token number ',' number '.'		{printf("[line %d] error: Invalid value. Please type an integer or a VALUE query.\n", yylineno); fprintf(stderr, "-1\n");}
-		| assign_token QUERY to_token error '.'					{printf("[line %d] error: Invalid tile co-ordinates. Please type co-ordinates in the format \"<row>,<col>\".\n", yylineno); fprintf(stderr, "-1\n");}
+		| var_token identifier is_token COORDINATE '.'			{name_tile($2, $4.row-1, $4.col-1);}
+		| var_token KEYWORD is_token COORDINATE '.'				{throw_error("Variable name can not be a keyword.");}
+		| var_token identifier identifier COORDINATE '.'		{throw_error("IS keyword expected.");}
+		| identifier identifier is_token COORDINATE '.'			{throw_error("VAR keyword expected.");}
 
-		| var_token identifier is_token number ',' number '.'	{name_tile($2, $4-1, $6-1);}
-		| var_token KEYWORD is_token number ',' number '.'		{printf("[line %d] error: Variable name can not be a keyword\n", yylineno); fprintf(stderr, "-1\n");}
-		| var_token error is_token number ',' number '.'		{printf("[line %d] error: Illegal variable name. The variable name is a single word containing only alphanumeric characters and underscores\n", yylineno); fprintf(stderr, "-1\n");}
-		| var_token identifier is_token error '.'				{printf("[line %d] error: Invalid tile co-ordinates. Please type co-ordinates in the format \"<row>,<col>\".\n", yylineno); fprintf(stderr, "-1\n");}
-
-		| value_token in_token number ',' number '.'			{
-																	int val = get_value($3-1, $5-1);
-																	if(val != -1){
-																		printf("2048> Value in <%d,%d> is %d\n", $3, $5, val);
-																	} else {
-																		printf("[line %d] error: Tile co-ordinates out of bounds. The tile co-ordinates must be in the range {1,2,3,4}.\n", yylineno);
-																		fprintf(stderr, "-1\n");
-																	}
+		| value_token in_token COORDINATE '.'					{
+																	int val = get_value($3.row-1, $3.col-1);
+																	if(val != -1) printf("2048> Value in <%d,%d> is %d\n", $3.row, $3.col, val);
 																}
-		| value_token in_token error '.'						{printf("[line %d] error: Invalid tile co-ordinates. Please type co-ordinates in the format \"<row>,<col>\".\n", yylineno); fprintf(stderr, "-1\n");}
+		| identifier in_token COORDINATE '.'					{throw_error("VALUE keyword expected.");}
+		| value_token identifier COORDINATE '.'					{throw_error("IN keyword expected.");}
 		;
 
-QUERY	: number												{$$ = $1;}
-		| value_token in_token number ',' number				{
-																	int val = get_value($3-1, $5-1); 
-																	if(val != -1){
-																		if(DEBUG) printf("2048> Value in <%d,%d> is %d\n", $3, $5, val);
-																	} else {
-																		printf("[line %d] error: Tile co-ordinates out of bounds. The tile co-ordinates must be in the range {1,2,3,4}.\n", yylineno);
-																		fprintf(stderr, "-1\n");
-																	}
+QUERY	: integer												{
+																	if($1 < 0) throw_error("Tile value can only be a non-negative integer.");
+																	$$ = $1;
+																}
+		| float_token											{throw_error("Tile value can only be a non-negative integer."); $$ = -1;}
+		| value_token in_token COORDINATE						{
+																	int val = get_value($3.row-1, $3.col-1);
 																	$$ = val;
 																}
-		| value_token in_token error							{printf("[line %d] error: Invalid tile co-ordinates. Please type co-ordinates in the format \"<row>,<col>\".\n", yylineno); fprintf(stderr, "-1\n");}
+		| identifier in_token COORDINATE						{throw_error("VALUE keyword expected."); $$ = -1;}
+		| value_token identifier COORDINATE						{throw_error("IN keyword expected."); $$ = -1;}
 		;
+	
+COORDINATE	: integer ',' integer								{
+																	if($1 < 0 || $3 < 0){
+																		if($1 < 0) throw_error("Row number can not be negative.");
+																		if($3 < 0) throw_error("Column number can not be negative.");
+																		$$ = make_coordinate(-1, -1);
+																	} else {
+																		$$ = make_coordinate($1, $3);
+																	}
+																}
+			| float_token ',' integer							{$$ = make_coordinate(-1, -1); throw_error("Floating point numbers not allowed.");}
+			| integer ',' float_token							{$$ = make_coordinate(-1, -1); throw_error("Floating point numbers not allowed.");}
+			| float_token ',' float_token						{$$ = make_coordinate(-1, -1); throw_error("Floating point numbers not allowed.");}
+			;
 
 KEYWORD	: operator												{;}
 		| direction												{;}
@@ -90,41 +96,15 @@ KEYWORD	: operator												{;}
 		;
 
 ```
-
+### Removed
+```
+LINE	| identifier direction '.'								{throw_error("Invalid operation. Choose an operation among {\"ADD\", \"SUBTRACT\", \"MULTIPLY\", \"DIVIDE\"}.");}
+		| identifier QUERY to_token COORDINATE '.'				{throw_error("\"ASSIGN\" keyword expected.");}
+		| identifier identifier is_token COORDINATE '.'			{throw_error("\"VAR\" keyword expected.");}
+		| identifier in_token COORDINATE '.'					{throw_error("\"VALUE\" keyword expected.");}
+QUERY	| identifier in_token COORDINATE						{throw_error("\"VALUE\" keyword expected."); $$ = -1;}
+```
 ## ToDo
-- fix writing only integers
-- code the variables logic
-- show verbose errors
-- default syntax errors
-- seperate the modules completely by passing **
 ## Doubts
-- should variable names be unique?
-- variable names consists of what all ASCII codes (for trie)?
-- **How can you name an empty tile?**
 - output format (spaces) for the variables if there are multiple present
-- make `\n` a part of the grammer?
-- 1.1 part 2
-- is variable to value mapping required?
-- 
-yynowrap -> lexer
-yyaccept -> parser
-- `printf("[line %d %d %d %d]", @$.first_line, @$.last_line, @$.first_column, @$.last_column); `
-## Doubt class
-- `Do we print on stderr after a VALUE in command??	No`
-- focus on the syntax directed translation scheme and not on the interpretation.
-- You can name mepty tile. It will get merged in the next non-empty tile in the direction of the move
-- You can give custom errors
-- All interpretations will be given marks
-- one line will not contain more than 1 command.
-- 2 0 0 2 ADD LEFT. -> 4 0 0 0
-	- if tile 2 has name "a" and tile 4 has name "b", then after move, tile 1 will have both "a" and "b".
-- OR zero tiles will have no names and this is handled in the interpretation part.
-## Line by line parse
-yynowrap -> lexer
-yyaccept -> parser
-###
-- `<<EOF>>                                 {return end_of_file;}`
-- add `%option noyywrap ` in .lex
-- comment `yywrap()` defination.
-- add `YYACCEPT` in first 3 productions of `PROGRAM`
-- add `YYABORT` in eof production of `PROGRAM`
+- Do we print on stderr after a VALUE in command?	No

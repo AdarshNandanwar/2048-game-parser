@@ -1,5 +1,6 @@
 %{
 #include "parser.tab.h"
+#include "common_header.h"
 #define YY_USER_ACTION \
     yylloc.first_line = yylloc.last_line; \
     yylloc.first_column = yylloc.last_column; \
@@ -27,16 +28,17 @@ extern int DEBUG;
 "IS"                                    {if(DEBUG) printf("keyword "); return is_token;}
 "VALUE"                                 {if(DEBUG) printf("keyword "); return value_token;}
 "IN"                                    {if(DEBUG) printf("keyword "); return in_token;}
-[-+]?[0-9]+\.[0-9]+                     {if(DEBUG) printf("float "); yylval.num = atoi(yytext); return float_token;}
+[-+]?[0-9]+\.[0-9]+                     {if(DEBUG) printf("float "); yylval.decimal = atof(yytext); return float_token;}
 [-+]?[0-9]+                             {if(DEBUG) printf("integer "); yylval.num = atoi(yytext); return integer;}
 [a-zA-Z_][a-zA-Z0-9_]*                  {if(DEBUG) printf("identifier "); yylval.str = strdup(yytext); return identifier;}
 [,.]                                    {if(DEBUG) printf("%c ", yytext[0]); return yytext[0];}
 [\n]                                    {if(DEBUG) printf("\\n\n"); return yytext[0];}
 [ \t]                                   { /* ignore */}
-.                                       {if(DEBUG) printf("unexpected_character ");}
+.                                       {
+                                            if(DEBUG) printf("unexpected_character "); 
+                                            char * msg = (char *) malloc(32*sizeof(char));
+                                            sprintf(msg, "Unexpected character '%c'.", yytext[0]);
+                                            throw_error(msg);
+                                        }
 <<EOF>>                                 {return end_of_file;}
 %%
-
-// int yywrap(void){
-//     return 1;
-// }

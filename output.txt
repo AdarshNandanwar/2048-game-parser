@@ -5,247 +5,313 @@
 
 2048> The current state is:
 ---------------------------------
-|	|	|	|	|
----------------------------------
-|	|	|	|	|
----------------------------------
-|4	|	|	|	|
----------------------------------
-|	|	|	|	|
----------------------------------
-
-2048> Enter a command:
-----> keyword keyword . 2048> Moved left using addition. Random tile added.
-2048> The current state is:
----------------------------------
-|	|	|	|4	|
----------------------------------
-|	|	|	|	|
----------------------------------
-|4	|	|	|	|
----------------------------------
-|	|	|	|	|
----------------------------------
-\n
-[break] status: 0
-
-2048> Enter a command:
-----> keyword keyword . 2048> Moved right using subtraction. Random tile added.
-2048> The current state is:
----------------------------------
-|	|	|	|4	|
----------------------------------
-|	|	|	|	|
----------------------------------
-|	|	|	|4	|
----------------------------------
-|	|	|2	|	|
----------------------------------
-\n
-[break] status: 0
-
-2048> Enter a command:
-----> keyword keyword . 2048> Moved up using multiplication. Random tile added.
-2048> The current state is:
----------------------------------
-|	|2	|2	|16	|
----------------------------------
-|	|	|	|	|
----------------------------------
-|	|	|	|	|
----------------------------------
-|	|	|	|	|
----------------------------------
-\n
-[break] status: 0
-
-2048> Enter a command:
-----> keyword keyword . 2048> Moved down using division. Random tile added.
-2048> The current state is:
----------------------------------
-|	|	|	|	|
----------------------------------
-|	|	|	|	|
----------------------------------
-|	|	|	|	|
----------------------------------
-|2	|2	|2	|16	|
----------------------------------
-\n
-[break] status: 0
-
-2048> Enter a command:
-----> keyword integer keyword integer , integer . 2048> Assigned the value 9 to <1,1>.
-2048> The current state is:
----------------------------------
-|9	|	|	|	|
----------------------------------
-|	|	|	|	|
----------------------------------
-|	|	|	|	|
----------------------------------
-|2	|2	|2	|16	|
----------------------------------
-\n
-[break] status: 0
-
-2048> Enter a command:
-----> keyword integer keyword integer , integer . 2048> Assigned the value 3 to <2,1>.
-2048> The current state is:
----------------------------------
-|9	|	|	|	|
----------------------------------
-|3	|	|	|	|
----------------------------------
-|	|	|	|	|
----------------------------------
-|2	|2	|2	|16	|
----------------------------------
-\n
-[break] status: 0
-
-2048> Enter a command:
-----> keyword integer keyword integer , integer . 2048> Assigned the value 3 to <2,2>.
-2048> The current state is:
----------------------------------
-|9	|	|	|	|
----------------------------------
-|3	|3	|	|	|
----------------------------------
-|	|	|	|	|
----------------------------------
-|2	|2	|2	|16	|
----------------------------------
-\n
-[break] status: 0
-
-2048> Enter a command:
-----> keyword identifier keyword integer , integer . 2048> Tile <2,1> named as "var".
-2048> The current state is:
----------------------------------
-|9	|	|	|	|
----------------------------------
-|3	|3	|	|	|
----------------------------------
-|	|	|	|	|
----------------------------------
-|2	|2	|2	|16	|
----------------------------------
-\n
-[break] status: 0
-
-2048> Enter a command:
-----> keyword identifier keyword integer , integer . 2048> Tile <2,1> named as "var1".
-2048> The current state is:
----------------------------------
-|9	|	|	|	|
----------------------------------
-|3	|3	|	|	|
----------------------------------
-|	|	|	|	|
----------------------------------
-|2	|2	|2	|16	|
----------------------------------
-\n
-[break] status: 0
-
-2048> Enter a command:
-----> keyword identifier keyword integer , integer . ERROR: Variable redeclaration.
-2048> Tile <2,2> named as "var".
-2048> The current state is:
----------------------------------
-|9	|	|	|	|
----------------------------------
-|3	|3	|	|	|
----------------------------------
-|	|	|	|	|
----------------------------------
-|2	|2	|2	|16	|
----------------------------------
-\n
-[break] status: 0
-
-2048> Enter a command:
-----> keyword identifier keyword integer , integer . 2048> Tile <1,1> named as "var_".
-2048> The current state is:
----------------------------------
-|9	|	|	|	|
----------------------------------
-|3	|3	|	|	|
----------------------------------
-|	|	|	|	|
----------------------------------
-|2	|2	|2	|16	|
----------------------------------
-\n
-[break] status: 0
-
-2048> Enter a command:
-----> keyword keyword . 2048> Moved left using multiplication. Random tile added.
-2048> The current state is:
----------------------------------
-|9	|	|	|	|
----------------------------------
-|9	|	|	|	|
----------------------------------
 |2	|	|	|	|
 ---------------------------------
-|4	|2	|16	|	|
----------------------------------
-\n
-[break] status: 0
-
-2048> Enter a command:
-----> keyword keyword . 2048> Moved up using subtraction. Random tile added.
-2048> The current state is:
----------------------------------
-|2	|2	|16	|	|
----------------------------------
-|4	|	|	|	|
----------------------------------
-|	|2	|	|	|
+|	|	|	|	|
 ---------------------------------
 |	|	|	|	|
 ---------------------------------
-\n
-[break] status: 0
-
-2048> Enter a command:
-----> keyword identifier keyword integer , integer . 2048> Tile <1,1> named as "var123".
-2048> The current state is:
----------------------------------
-|2	|2	|16	|	|
----------------------------------
-|4	|	|	|	|
----------------------------------
-|	|2	|	|	|
----------------------------------
 |	|	|	|	|
 ---------------------------------
-\n
-[break] status: 0
 
 2048> Enter a command:
-----> keyword keyword integer , integer . 2048> Value in <1,1> is 2
+----> identifier ERROR: Syntax error at token "Hi".
+, identifier identifier unexpected_character        Unexpected character '!'.
 \n
-[break] status: 0
+       Command must end with a full-stop.
+Variables in Trie: 
 
 2048> Enter a command:
-----> keyword keyword keyword integer , integer 2048> Value in <1,1> is 2
-keyword integer , integer . 2048> Assigned the value 2 to <4,4>.
-2048> The current state is:
----------------------------------
-|2	|2	|16	|	|
----------------------------------
-|4	|	|	|	|
----------------------------------
-|	|2	|	|	|
----------------------------------
-|	|	|	|2	|
----------------------------------
+----> keyword . ERROR: Direction not specified. Choose a direction among {"LEFT", "RIGHT", "UP", "DOWN"}.
 \n
-[break] status: 0
+Variables in Trie: 
+
+2048> Enter a command:
+----> keyword . ERROR: Operation not specified. Choose an operation among {"ADD", "SUBTRACT", "MULTIPLY", "DIVIDE"}.
+\n
+Variables in Trie: 
+
+2048> Enter a command:
+----> identifier ERROR: Syntax error at token "Add".
+identifier \n
+       Command must end with a full-stop.
+Variables in Trie: 
+
+2048> Enter a command:
+----> keyword keyword \n
+ERROR: Command must end with a full-stop.
+Variables in Trie: 
+
+2048> Enter a command:
+----> keyword identifier . ERROR: Invalid direction. Choose a direction among {"LEFT", "RIGHT", "UP", "DOWN"}.
+\n
+Variables in Trie: 
+
+2048> Enter a command:
+----> identifier ERROR: Syntax error at token "MODULO".
+keyword . \n
+       Invalid command.
+Variables in Trie: 
+
+2048> Enter a command:
+----> keyword keyword integer , integer 
+5.000000 5.000000
+. ERROR: Value not specified. Value must be a non negative integer.
+\n
+Variables in Trie: 
+
+2048> Enter a command:
+----> keyword integer keyword ERROR: Syntax error at token "IS".
+integer , integer . \n
+       Invalid command.
+Variables in Trie: 
+
+2048> Enter a command:
+----> keyword integer keyword identifier ERROR: Syntax error at token "var1".
+. \n
+       Invalid command.
+Variables in Trie: 
+
+2048> Enter a command:
+----> keyword integer keyword integer , integer 
+5.000000 5.000000
+. ERROR: Invalid co-ordinates. The tile co-ordinates must be in the range {1,2,3,4}.
+\n
+Variables in Trie: 
+
+2048> Enter a command:
+----> keyword integer keyword integer , float 
+0.000000 2.340000
+ERROR: Floating point numbers not allowed.
+.        Invalid co-ordinates. The tile co-ordinates must be in the range {1,2,3,4}.
+\n
+Variables in Trie: 
+
+2048> Enter a command:
+----> keyword integer keyword integer , integer 
+-1.000000 4.000000
+ERROR: Row number can not be negative.
+.        Invalid co-ordinates. The tile co-ordinates must be in the range {1,2,3,4}.
+\n
+Variables in Trie: 
+
+2048> Enter a command:
+----> keyword integer keyword integer , integer 
+0.000000 -3.000000
+ERROR: Column number can not be negative.
+.        Invalid co-ordinates. The tile co-ordinates must be in the range {1,2,3,4}.
+\n
+Variables in Trie: 
+
+2048> Enter a command:
+----> keyword integer keyword integer , integer 
+1.000000 -3.000000
+ERROR: Column number can not be negative.
+.        Invalid co-ordinates. The tile co-ordinates must be in the range {1,2,3,4}.
+\n
+Variables in Trie: 
+
+2048> Enter a command:
+----> keyword keyword keyword ERROR: Syntax error at token "TO".
+integer , integer . \n
+       Invalid command.
+Variables in Trie: 
+
+2048> Enter a command:
+----> keyword keyword integer , integer 
+1.000000 3.000000
+. ERROR: Value not specified. Value must be a non negative integer.
+\n
+Variables in Trie: 
+
+2048> Enter a command:
+----> keyword integer integer ERROR: Syntax error at token "4".
+, integer . \n
+       Invalid command.
+Variables in Trie: 
+
+2048> Enter a command:
+----> identifier ERROR: Syntax error at token "assign".
+integer keyword integer , integer . \n
+       Invalid command.
+Variables in Trie: 
+
+2048> Enter a command:
+----> keyword keyword ERROR: Syntax error at token "IS".
+integer , integer . \n
+       Invalid command.
+Variables in Trie: 
+
+2048> Enter a command:
+----> keyword keyword keyword integer , integer 
+1.000000 2.000000
+. ERROR: Variable name can not be a keyword.
+\n
+Variables in Trie: 
+
+2048> Enter a command:
+----> keyword keyword integer , integer 
+1.000000 2.000000
+. ERROR: Variable name can not be a keyword.
+       "IS" keyword expected.
+\n
+Variables in Trie: 
+
+2048> Enter a command:
+----> keyword identifier keyword integer , integer 
+0.000000 2.000000
+. ERROR: Invalid co-ordinates. The tile co-ordinates must be in the range {1,2,3,4}.
+\n
+Variables in Trie: 
+
+2048> Enter a command:
+----> keyword identifier keyword integer , integer 
+1.000000 -2.000000
+ERROR: Column number can not be negative.
+.        Invalid co-ordinates. The tile co-ordinates must be in the range {1,2,3,4}.
+\n
+Variables in Trie: 
+
+2048> Enter a command:
+----> identifier ERROR: Syntax error at token "var".
+identifier keyword integer , integer . \n
+       Invalid command.
+Variables in Trie: 
+
+2048> Enter a command:
+----> keyword keyword integer , float 
+-3.000000 1.800000
+ERROR: Row number can not be negative.
+       Floating point numbers not allowed.
+.        Invalid co-ordinates. The tile co-ordinates must be in the range {1,2,3,4}.
+\n
+Variables in Trie: 
+
+2048> Enter a command:
+----> keyword identifier integer , integer 
+3.000000 1.000000
+. ERROR: "IN" keyword expected.
+\n
+Variables in Trie: 
+
+2048> Enter a command:
+----> identifier ERROR: Syntax error at token "value".
+keyword integer , integer . \n
+       Invalid command.
+Variables in Trie: 
+
+2048> Enter a command:
+----> keyword integer , integer 
+3.000000 1.000000
+. ERROR: "IN" keyword expected.
+\n
+Variables in Trie: 
+
+2048> Enter a command:
+----> keyword keyword integer , integer 
+0.000000 1.000000
+. ERROR: Invalid co-ordinates. The tile co-ordinates must be in the range {1,2,3,4}.
+\n
+Variables in Trie: 
+
+2048> Enter a command:
+----> keyword keyword integer , integer 
+5.000000 5.000000
+. ERROR: Invalid co-ordinates. The tile co-ordinates must be in the range {1,2,3,4}.
+\n
+Variables in Trie: 
+
+2048> Enter a command:
+----> keyword keyword integer , integer 
+5.000000 5.000000
+ERROR: "IN" keyword expected.
+keyword integer , integer 
+1.000000 -3.000000
+       Column number can not be negative.
+. \n
+Variables in Trie: 
+
+2048> Enter a command:
+----> keyword keyword keyword integer , integer 
+5.000000 5.000000
+ERROR: Invalid co-ordinates. The tile co-ordinates must be in the range {1,2,3,4}.
+keyword integer , integer 
+1.000000 -3.000000
+       Column number can not be negative.
+. \n
+Variables in Trie: 
+
+2048> Enter a command:
+----> identifier ERROR: Syntax error at token "assign".
+keyword keyword integer , integer keyword integer , integer . \n
+       Invalid command.
+Variables in Trie: 
+
+2048> Enter a command:
+----> keyword identifier ERROR: Syntax error at token "value".
+keyword integer , integer keyword integer , integer . \n
+       Invalid command.
+Variables in Trie: 
+
+2048> Enter a command:
+----> keyword keyword identifier integer , integer 
+5.000000 5.000000
+ERROR: "IN" keyword expected.
+keyword integer , integer 
+1.000000 -3.000000
+       Column number can not be negative.
+. \n
+Variables in Trie: 
+
+2048> Enter a command:
+----> keyword keyword keyword integer , integer 
+5.000000 5.000000
+ERROR: Invalid co-ordinates. The tile co-ordinates must be in the range {1,2,3,4}.
+identifier integer , integer 
+1.000000 -3.000000
+       Column number can not be negative.
+.        "TO" keyword expected.
+\n
+Variables in Trie: 
+
+2048> Enter a command:
+----> keyword keyword keyword integer , integer 
+5.000000 5.000000
+ERROR: Invalid co-ordinates. The tile co-ordinates must be in the range {1,2,3,4}.
+identifier integer , integer 
+1.000000 -3.000000
+       Column number can not be negative.
+\n
+       Command must end with a full-stop.
+Variables in Trie: 
+
+2048> Enter a command:
+----> identifier ERROR: Syntax error at token "a".
+identifier identifier identifier identifier identifier \n
+       Command must end with a full-stop.
+Variables in Trie: 
+
+2048> Enter a command:
+----> identifier ERROR: Syntax error at token "a".
+identifier identifier identifier identifier identifier . \n
+       Invalid command.
+Variables in Trie: 
+
+2048> Enter a command:
+----> keyword keyword keyword integer , integer 
+1.000000 2.000000
+. ERROR: Variable name can not be a keyword.
+\n
+Variables in Trie: 
+
+2048> Enter a command:
+----> keyword keyword integer , integer 
+1.000000 2.000000
+. ERROR: Variable name can not be a keyword.
+       "IS" keyword expected.
+\n
+Variables in Trie: 
 
 2048> Enter a command:
 ----> EOF
-[break] status: 1
+2048> Exiting. Total commands given: 42
