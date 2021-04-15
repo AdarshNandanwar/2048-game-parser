@@ -1,11 +1,11 @@
-2048: lex.yy.c y.tab.c board.o tile_name.o
-	gcc -g lex.yy.c y.tab.c board.o tile_name.o -o 2048
+2048: lex.yy.c parser.tab.c board.o tile_name.o
+	gcc -g lex.yy.c parser.tab.c board.o tile_name.o -o 2048
 
-lex.yy.c: y.tab.c lexer.l
+lex.yy.c: parser.tab.c lexer.l
 	lex lexer.l
 
-y.tab.c: parser.y
-	yacc -d parser.y
+parser.tab.c: parser.y
+	bison -d parser.y
 
 board.o: board.c
 	gcc -c board.c -o board.o

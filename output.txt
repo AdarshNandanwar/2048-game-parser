@@ -9,147 +9,241 @@
 ---------------------------------
 |	|	|	|	|
 ---------------------------------
-|	|4	|	|	|
+|4	|	|	|	|
 ---------------------------------
 |	|	|	|	|
 ---------------------------------
 
 2048> Enter a command:
-----> ERROR: syntax error
-ERROR: Command must end with a full-stop.
+----> keyword keyword . 2048> Moved left using addition. Random tile added.
+2048> The current state is:
+---------------------------------
+|	|	|	|4	|
+---------------------------------
+|	|	|	|	|
+---------------------------------
+|4	|	|	|	|
+---------------------------------
+|	|	|	|	|
+---------------------------------
+\n
 [break] status: 0
 
 2048> Enter a command:
-----> ERROR: Direction not specified.
+----> keyword keyword . 2048> Moved right using subtraction. Random tile added.
+2048> The current state is:
+---------------------------------
+|	|	|	|4	|
+---------------------------------
+|	|	|	|	|
+---------------------------------
+|	|	|	|4	|
+---------------------------------
+|	|	|2	|	|
+---------------------------------
+\n
 [break] status: 0
 
 2048> Enter a command:
-----> ERROR: Operation not specified.
+----> keyword keyword . 2048> Moved up using multiplication. Random tile added.
+2048> The current state is:
+---------------------------------
+|	|2	|2	|16	|
+---------------------------------
+|	|	|	|	|
+---------------------------------
+|	|	|	|	|
+---------------------------------
+|	|	|	|	|
+---------------------------------
+\n
 [break] status: 0
 
 2048> Enter a command:
-----> ERROR: syntax error
-ERROR: Command must end with a full-stop.
+----> keyword keyword . 2048> Moved down using division. Random tile added.
+2048> The current state is:
+---------------------------------
+|	|	|	|	|
+---------------------------------
+|	|	|	|	|
+---------------------------------
+|	|	|	|	|
+---------------------------------
+|2	|2	|2	|16	|
+---------------------------------
+\n
 [break] status: 0
 
 2048> Enter a command:
-----> ERROR: syntax error
-ERROR: Command must end with a full-stop.
+----> keyword integer keyword integer , integer . 2048> Assigned the value 9 to <1,1>.
+2048> The current state is:
+---------------------------------
+|9	|	|	|	|
+---------------------------------
+|	|	|	|	|
+---------------------------------
+|	|	|	|	|
+---------------------------------
+|2	|2	|2	|16	|
+---------------------------------
+\n
 [break] status: 0
 
 2048> Enter a command:
-----> ERROR: Invalid direction. Choose a direction among {"LEFT", "RIGHT", "UP", "DOWN"}.
+----> keyword integer keyword integer , integer . 2048> Assigned the value 3 to <2,1>.
+2048> The current state is:
+---------------------------------
+|9	|	|	|	|
+---------------------------------
+|3	|	|	|	|
+---------------------------------
+|	|	|	|	|
+---------------------------------
+|2	|2	|2	|16	|
+---------------------------------
+\n
 [break] status: 0
 
 2048> Enter a command:
-----> ERROR: Invalid operation. Choose an operation among {"ADD", "SUBTRACT", "MULTIPLY", "DIVIDE"}.
+----> keyword integer keyword integer , integer . 2048> Assigned the value 3 to <2,2>.
+2048> The current state is:
+---------------------------------
+|9	|	|	|	|
+---------------------------------
+|3	|3	|	|	|
+---------------------------------
+|	|	|	|	|
+---------------------------------
+|2	|2	|2	|16	|
+---------------------------------
+\n
 [break] status: 0
 
 2048> Enter a command:
-----> ERROR: syntax error
-ERROR: Invalid command
+----> keyword identifier keyword integer , integer . 2048> Tile <2,1> named as "var".
+2048> The current state is:
+---------------------------------
+|9	|	|	|	|
+---------------------------------
+|3	|3	|	|	|
+---------------------------------
+|	|	|	|	|
+---------------------------------
+|2	|2	|2	|16	|
+---------------------------------
+\n
 [break] status: 0
 
 2048> Enter a command:
-----> ERROR: syntax error
-ERROR: Invalid command
+----> keyword identifier keyword integer , integer . 2048> Tile <2,1> named as "var1".
+2048> The current state is:
+---------------------------------
+|9	|	|	|	|
+---------------------------------
+|3	|3	|	|	|
+---------------------------------
+|	|	|	|	|
+---------------------------------
+|2	|2	|2	|16	|
+---------------------------------
+\n
 [break] status: 0
 
 2048> Enter a command:
-----> ERROR: syntax error
-ERROR: Invalid command
+----> keyword identifier keyword integer , integer . ERROR: Variable redeclaration.
+2048> Tile <2,2> named as "var".
+2048> The current state is:
+---------------------------------
+|9	|	|	|	|
+---------------------------------
+|3	|3	|	|	|
+---------------------------------
+|	|	|	|	|
+---------------------------------
+|2	|2	|2	|16	|
+---------------------------------
+\n
 [break] status: 0
 
 2048> Enter a command:
-----> [line 11] error: Tile co-ordinates out of bounds. The tile co-ordinates must be in the range {1,2,3,4}.
+----> keyword identifier keyword integer , integer . 2048> Tile <1,1> named as "var_".
+2048> The current state is:
+---------------------------------
+|9	|	|	|	|
+---------------------------------
+|3	|3	|	|	|
+---------------------------------
+|	|	|	|	|
+---------------------------------
+|2	|2	|2	|16	|
+---------------------------------
+\n
 [break] status: 0
 
 2048> Enter a command:
-----> [line 12] error: Tile co-ordinates out of bounds. The tile co-ordinates must be in the range {1,2,3,4}.
+----> keyword keyword . 2048> Moved left using multiplication. Random tile added.
+2048> The current state is:
+---------------------------------
+|9	|	|	|	|
+---------------------------------
+|9	|	|	|	|
+---------------------------------
+|2	|	|	|	|
+---------------------------------
+|4	|2	|16	|	|
+---------------------------------
+\n
 [break] status: 0
 
 2048> Enter a command:
-----> [line 13] error: Tile co-ordinates out of bounds. The tile co-ordinates must be in the range {1,2,3,4}.
+----> keyword keyword . 2048> Moved up using subtraction. Random tile added.
+2048> The current state is:
+---------------------------------
+|2	|2	|16	|	|
+---------------------------------
+|4	|	|	|	|
+---------------------------------
+|	|2	|	|	|
+---------------------------------
+|	|	|	|	|
+---------------------------------
+\n
 [break] status: 0
 
 2048> Enter a command:
-----> [line 14] error: Tile co-ordinates out of bounds. The tile co-ordinates must be in the range {1,2,3,4}.
+----> keyword identifier keyword integer , integer . 2048> Tile <1,1> named as "var123".
+2048> The current state is:
+---------------------------------
+|2	|2	|16	|	|
+---------------------------------
+|4	|	|	|	|
+---------------------------------
+|	|2	|	|	|
+---------------------------------
+|	|	|	|	|
+---------------------------------
+\n
 [break] status: 0
 
 2048> Enter a command:
-----> ERROR: syntax error
-ERROR: Invalid command
+----> keyword keyword integer , integer . 2048> Value in <1,1> is 2
+\n
 [break] status: 0
 
 2048> Enter a command:
-----> ERROR: syntax error
-ERROR: Invalid command
-[break] status: 0
-
-2048> Enter a command:
-----> ERROR: syntax error
-ERROR: Invalid command
-[break] status: 0
-
-2048> Enter a command:
-----> ERROR: syntax error
-ERROR: Invalid command
-[break] status: 0
-
-2048> Enter a command:
-----> ERROR: syntax error
-ERROR: Invalid command
-[break] status: 0
-
-2048> Enter a command:
-----> ERROR: Variable name can not be a keyword
-[break] status: 0
-
-2048> Enter a command:
-----> ERROR: syntax error
-ERROR: Invalid command
-[break] status: 0
-
-2048> Enter a command:
-----> [line 22] error: Tile co-ordinates out of bounds. The tile co-ordinates must be in the range {1,2,3,4}.
-[break] status: 0
-
-2048> Enter a command:
-----> [line 23] error: can not name an empty tile
-[break] status: 0
-
-2048> Enter a command:
-----> ERROR: syntax error
-ERROR: Invalid command
-[break] status: 0
-
-2048> Enter a command:
-----> 2048> Value in <3,1> is 0
-[break] status: 0
-
-2048> Enter a command:
-----> ERROR: syntax error
-ERROR: Invalid command
-[break] status: 0
-
-2048> Enter a command:
-----> ERROR: syntax error
-ERROR: Invalid command
-[break] status: 0
-
-2048> Enter a command:
-----> ERROR: syntax error
-ERROR: Invalid command
-[break] status: 0
-
-2048> Enter a command:
-----> [line 29] error: Tile co-ordinates out of bounds. The tile co-ordinates must be in the range {1,2,3,4}.
-ERROR: Tile co-ordinates out of bounds. The tile co-ordinates must be in the range {1,2,3,4}.
-[break] status: 0
-
-2048> Enter a command:
-----> [line 30] error: Tile co-ordinates out of bounds. The tile co-ordinates must be in the range {1,2,3,4}.
-ERROR: Tile co-ordinates out of bounds. The tile co-ordinates must be in the range {1,2,3,4}.
+----> keyword keyword keyword integer , integer 2048> Value in <1,1> is 2
+keyword integer , integer . 2048> Assigned the value 2 to <4,4>.
+2048> The current state is:
+---------------------------------
+|2	|2	|16	|	|
+---------------------------------
+|4	|	|	|	|
+---------------------------------
+|	|2	|	|	|
+---------------------------------
+|	|	|	|2	|
+---------------------------------
+\n
 [break] status: 0
 
 2048> Enter a command:

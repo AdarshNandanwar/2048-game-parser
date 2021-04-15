@@ -110,6 +110,7 @@ yynowrap -> lexer
 yyaccept -> parser
 - `printf("[line %d %d %d %d]", @$.first_line, @$.last_line, @$.first_column, @$.last_column); `
 ## Doubt class
+- `Do we print on stderr after a VALUE in command??	No`
 - focus on the syntax directed translation scheme and not on the interpretation.
 - You can name mepty tile. It will get merged in the next non-empty tile in the direction of the move
 - You can give custom errors

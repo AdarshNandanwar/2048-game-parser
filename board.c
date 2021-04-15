@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "board.h"
 #include "tile_name.h"
+#include "common_header.h"
 
 extern int yylineno;
 int state[4][4];
@@ -178,26 +179,23 @@ int get_value(int row, int col){
 	if(0<=row && row<4 && 0<=col && col<4){
 		return state[row][col];
 	} else {
-		printf("[line %d] error: Tile co-ordinates out of bounds. The tile co-ordinates must be in the range {1,2,3,4}.\n", yylineno);
-		fprintf(stderr, "-1\n");
+		throw_error("Invalid co-ordinates. The tile co-ordinates must be in the range {1,2,3,4}.");
 		return -1;
 	}
 }
 
 void assign_value(int val, int row, int col){
-	if(val == -1){
+	if(val < 0){
 		// error occured in QUERY production
 		return;
 	}
-	// printf("assigning value %d to <%d, %d>\n", val, row+1, col+1); 
 	if(0<=row && row<4 && 0<=col && col<4){
 		state[row][col] = val;
 		printf("2048> Assigned the value %d to <%d,%d>.\n", val, row+1, col+1);
 		print_state();
 		print_state_flat();
 	} else {
-		printf("[line %d] error: Tile co-ordinates out of bounds. The tile co-ordinates must be in the range {1,2,3,4}.\n", yylineno);
-		fprintf(stderr, "-1\n");
+		throw_error("Invalid co-ordinates. The tile co-ordinates must be in the range {1,2,3,4}.");
 	}
 }
 
@@ -226,10 +224,25 @@ void print_state_flat(){
 	for(int i = 0; i<4; i++){
 		for(int j = 0; j<4; j++){
 			TileNameNode * head = tile_name[i][j];
+
+			/* OLD FORMAT
 			while(head){
 				fprintf(stderr, "%d,%d%s ", i+1, j+1, head->name);
 				head = head->next;
 			}
+			*/
+		
+			int is_empty = 1;
+			if(head){
+				is_empty = 0;
+				fprintf(stderr, "%d,%d%s", i+1, j+1, head->name);
+				head = head->next;
+			}
+			while(head){
+				fprintf(stderr, ",%s", head->name);
+				head = head->next;
+			}
+			if(!is_empty) fprintf(stderr, " ");
 		}
 	}
 	fprintf(stderr, "\n");

@@ -3,6 +3,7 @@
 #include <string.h>
 #include "board.h"
 #include "tile_name.h"
+#include "common_header.h"
 
 TileNameNode * tile_name[4][4];
 TileNameTrieNode * tile_name_trie_head;
@@ -54,7 +55,7 @@ void trie_erase_list(TileNameNode * list_head){
 TileNameNode * insert_name(TileNameNode * head, char * name){
     int status = trie_insert(name);
     if(status == 0){
-        printf("[line %d] error: variable redeclaration\n", yylineno);
+        throw_error("Variable redeclaration.");
         return head;
     }
     TileNameNode * new_node = (TileNameNode *) malloc(sizeof(TileNameNode));
@@ -80,8 +81,7 @@ TileNameNode * merge_name(TileNameNode * head_1, TileNameNode * head_2){
 void name_tile(char * name, int row, int col){
 	if(0<=row && row<4 && 0<=col && col<4){
         if(state[row][col] == 0){
-            printf("[line %d] error: can not name an empty tile\n", yylineno);
-            fprintf(stderr, "-1\n");
+            throw_error("Can not name an empty tile.");
             return;
         }
         tile_name[row][col] = insert_name(tile_name[row][col], name);
@@ -89,7 +89,6 @@ void name_tile(char * name, int row, int col){
 		print_state();
 	    print_state_flat();
 	} else {
-		printf("[line %d] error: Tile co-ordinates out of bounds. The tile co-ordinates must be in the range {1,2,3,4}.\n", yylineno);
-        fprintf(stderr, "-1\n");
+        throw_error("Invalid co-ordinates. The tile co-ordinates must be in the range {1,2,3,4}.");
 	}
 }
