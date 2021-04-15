@@ -1,8 +1,9 @@
 ./2048
-Hi, I am the 2048-game Engine.
-The current state is:
----------------------------------
-|	|	|	|	|
+#################################
+##       2048-game Engine      ##
+#################################
+
+2048> The current state is:
 ---------------------------------
 |	|	|	|	|
 ---------------------------------
@@ -10,36 +11,147 @@ The current state is:
 ---------------------------------
 |	|4	|	|	|
 ---------------------------------
-Sorry, I don’t understand that.
-Sorry, I don’t understand that.
-You need to end the command with a full-stop.
-You need to end the command with a full-stop.
-Sorry, I don’t understand that.
-You need to end the command with a full-stop.
-Thanks, left move done, random tile added.
-The current state is:
----------------------------------
 |	|	|	|	|
 ---------------------------------
-|	|	|	|	|
----------------------------------
-|	|	|2	|	|
----------------------------------
-|4	|	|	|	|
----------------------------------
-There is no tile like that. The tile co-ordinates must be in the range 1,2,3,4.
-Thanks, assignment done.
-The current state is:
----------------------------------
-|	|	|	|	|
----------------------------------
-|	|	|	|	|
----------------------------------
-|	|	|2	|	|
----------------------------------
-|4	|	|7	|	|
----------------------------------
-Sorry, I don’t understand that.
-Syntax error.
-[line 8] error: can not name an empty tile
-Sorry, I don’t understand that.
+
+2048> Enter a command:
+----> ERROR: syntax error
+ERROR: Command must end with a full-stop.
+[break] status: 0
+
+2048> Enter a command:
+----> ERROR: Direction not specified.
+[break] status: 0
+
+2048> Enter a command:
+----> ERROR: Operation not specified.
+[break] status: 0
+
+2048> Enter a command:
+----> ERROR: syntax error
+ERROR: Command must end with a full-stop.
+[break] status: 0
+
+2048> Enter a command:
+----> ERROR: syntax error
+ERROR: Command must end with a full-stop.
+[break] status: 0
+
+2048> Enter a command:
+----> ERROR: Invalid direction. Choose a direction among {"LEFT", "RIGHT", "UP", "DOWN"}.
+[break] status: 0
+
+2048> Enter a command:
+----> ERROR: Invalid operation. Choose an operation among {"ADD", "SUBTRACT", "MULTIPLY", "DIVIDE"}.
+[break] status: 0
+
+2048> Enter a command:
+----> ERROR: syntax error
+ERROR: Invalid command
+[break] status: 0
+
+2048> Enter a command:
+----> ERROR: syntax error
+ERROR: Invalid command
+[break] status: 0
+
+2048> Enter a command:
+----> ERROR: syntax error
+ERROR: Invalid command
+[break] status: 0
+
+2048> Enter a command:
+----> [line 11] error: Tile co-ordinates out of bounds. The tile co-ordinates must be in the range {1,2,3,4}.
+[break] status: 0
+
+2048> Enter a command:
+----> [line 12] error: Tile co-ordinates out of bounds. The tile co-ordinates must be in the range {1,2,3,4}.
+[break] status: 0
+
+2048> Enter a command:
+----> [line 13] error: Tile co-ordinates out of bounds. The tile co-ordinates must be in the range {1,2,3,4}.
+[break] status: 0
+
+2048> Enter a command:
+----> [line 14] error: Tile co-ordinates out of bounds. The tile co-ordinates must be in the range {1,2,3,4}.
+[break] status: 0
+
+2048> Enter a command:
+----> ERROR: syntax error
+ERROR: Invalid command
+[break] status: 0
+
+2048> Enter a command:
+----> ERROR: syntax error
+ERROR: Invalid command
+[break] status: 0
+
+2048> Enter a command:
+----> ERROR: syntax error
+ERROR: Invalid command
+[break] status: 0
+
+2048> Enter a command:
+----> ERROR: syntax error
+ERROR: Invalid command
+[break] status: 0
+
+2048> Enter a command:
+----> ERROR: syntax error
+ERROR: Invalid command
+[break] status: 0
+
+2048> Enter a command:
+----> ERROR: Variable name can not be a keyword
+[break] status: 0
+
+2048> Enter a command:
+----> ERROR: syntax error
+ERROR: Invalid command
+[break] status: 0
+
+2048> Enter a command:
+----> [line 22] error: Tile co-ordinates out of bounds. The tile co-ordinates must be in the range {1,2,3,4}.
+[break] status: 0
+
+2048> Enter a command:
+----> [line 23] error: can not name an empty tile
+[break] status: 0
+
+2048> Enter a command:
+----> ERROR: syntax error
+ERROR: Invalid command
+[break] status: 0
+
+2048> Enter a command:
+----> 2048> Value in <3,1> is 0
+[break] status: 0
+
+2048> Enter a command:
+----> ERROR: syntax error
+ERROR: Invalid command
+[break] status: 0
+
+2048> Enter a command:
+----> ERROR: syntax error
+ERROR: Invalid command
+[break] status: 0
+
+2048> Enter a command:
+----> ERROR: syntax error
+ERROR: Invalid command
+[break] status: 0
+
+2048> Enter a command:
+----> [line 29] error: Tile co-ordinates out of bounds. The tile co-ordinates must be in the range {1,2,3,4}.
+ERROR: Tile co-ordinates out of bounds. The tile co-ordinates must be in the range {1,2,3,4}.
+[break] status: 0
+
+2048> Enter a command:
+----> [line 30] error: Tile co-ordinates out of bounds. The tile co-ordinates must be in the range {1,2,3,4}.
+ERROR: Tile co-ordinates out of bounds. The tile co-ordinates must be in the range {1,2,3,4}.
+[break] status: 0
+
+2048> Enter a command:
+----> EOF
+[break] status: 1

@@ -1,6 +1,7 @@
 2048
 tile_name.o
 board.o
+input*.txt
 
 # flex/yacc
 lex.yy.c

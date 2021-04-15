@@ -1,9 +1,22 @@
 %{
 #include "y.tab.h"
+#define YY_USER_ACTION \
+    yylloc.first_line = yylloc.last_line; \
+    yylloc.first_column = yylloc.last_column; \
+    for(int i = 0; yytext[i] != '\0'; i++) { \
+        if(yytext[i] == '\n') { \
+            yylloc.last_line++; \
+            yylloc.last_column = 0; \
+        } \
+        else { \
+            yylloc.last_column++; \
+        } \
+    }
 void yyerror (char *s);
 int yylex();
 extern int DEBUG;
 %}
+%option noyywrap
 %option yylineno
 %%
 "ADD"|"SUBTRACT"|"MULTIPLY"|"DIVIDE"    {if(DEBUG) printf("keyword "); yylval.id = yytext[0]; return operator;}
@@ -19,10 +32,10 @@ extern int DEBUG;
 [,.]                                    {if(DEBUG) printf("%c ", yytext[0]); return yytext[0];}
 [\n]                                    {if(DEBUG) printf("\\n\n"); return yytext[0];}
 [ \t]                                   { /* ignore */}
-.                                       {yyerror("unexpected character");}
-
+.                                       {if(DEBUG) printf("unexpected character\n");}
+<<EOF>>                                 {return end_of_file;}
 %%
 
-int yywrap(void){
-    return 1;
-}
+// int yywrap(void){
+//     return 1;
+// }

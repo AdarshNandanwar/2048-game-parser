@@ -85,11 +85,11 @@ void name_tile(char * name, int row, int col){
             return;
         }
         tile_name[row][col] = insert_name(tile_name[row][col], name);
-        printf("Thanks, naming done.\n");
+        printf("2048> Tile <%d,%d> named as \"%s\".\n", row+1, col+1, name);
 		print_state();
 	    print_state_flat();
 	} else {
-		printf("There is no tile like that. The tile co-ordinates must be in the range 1,2,3,4.\n");
+		printf("[line %d] error: Tile co-ordinates out of bounds. The tile co-ordinates must be in the range {1,2,3,4}.\n", yylineno);
         fprintf(stderr, "-1\n");
 	}
 }

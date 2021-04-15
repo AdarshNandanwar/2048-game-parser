@@ -119,7 +119,6 @@ void operate_left(char oper){
 }
 
 void make_move(char oper, char dir){
-	// printf("moving %c using %c\n", dir, oper);
 	switch(dir){
 		case 'L': {
 			shift_left();
@@ -155,14 +154,21 @@ void make_move(char oper, char dir){
 		}
 	}
 	insert_random_tile();
-	printf("Thanks, ");
+	printf("2048> Moved ");
 	switch(dir){
 		case 'L': printf("left"); break;
 		case 'R': printf("right"); break;
 		case 'U': printf("up"); break;
 		case 'D': printf("down"); break;
 	}
-	printf(" move done, random tile added.\n");
+	printf(" using ");
+	switch(oper){
+		case 'A': printf("addition"); break;
+		case 'S': printf("subtraction"); break;
+		case 'M': printf("multiplication"); break;
+		case 'D': printf("division"); break;
+	}
+	printf(". Random tile added.\n");
 	print_state();
 	print_state_flat();
 }
@@ -172,7 +178,7 @@ int get_value(int row, int col){
 	if(0<=row && row<4 && 0<=col && col<4){
 		return state[row][col];
 	} else {
-		printf("There is no tile like that. The tile co-ordinates must be in the range 1,2,3,4.\n");
+		printf("[line %d] error: Tile co-ordinates out of bounds. The tile co-ordinates must be in the range {1,2,3,4}.\n", yylineno);
 		fprintf(stderr, "-1\n");
 		return -1;
 	}
@@ -186,17 +192,17 @@ void assign_value(int val, int row, int col){
 	// printf("assigning value %d to <%d, %d>\n", val, row+1, col+1); 
 	if(0<=row && row<4 && 0<=col && col<4){
 		state[row][col] = val;
-		printf("Thanks, assignment done.\n");
+		printf("2048> Assigned the value %d to <%d,%d>.\n", val, row+1, col+1);
 		print_state();
 		print_state_flat();
 	} else {
-		printf("There is no tile like that. The tile co-ordinates must be in the range 1,2,3,4.\n");
+		printf("[line %d] error: Tile co-ordinates out of bounds. The tile co-ordinates must be in the range {1,2,3,4}.\n", yylineno);
 		fprintf(stderr, "-1\n");
 	}
 }
 
 void print_state(){
-	printf("The current state is:\n---------------------------------\n");
+	printf("2048> The current state is:\n---------------------------------\n");
 	for(int i = 0; i<4; i++){
 		for(int j = 0; j<4; j++){
 			if(state[i][j] == 0){
