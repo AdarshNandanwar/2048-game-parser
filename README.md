@@ -1,6 +1,5 @@
 # 2048-game-parser
-The project consists of parser-translator (that means a complete syntax-directed translation
-scheme) for a game programming language.
+The project consists of parser-translator (that means a complete syntax-directed translation scheme) for a modified 2048 game programming language.
 
 ## Commands
 - The following commands are allowed:
@@ -36,10 +35,14 @@ make clean
 make
 make run
 ```
+- Note - If the input is taken from a file, ensure it ends with a newline character `'\n'`.
 ## Dependencies
-1. gcc
-2. flex
-3. bison
-### Made by
+- gcc
+- flex
+- bison
+
+<hr>
+
+#### Made by
 - Name: Adarsh Nandanwar
 - BITS ID: 2018A7PS0396G

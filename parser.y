@@ -12,7 +12,7 @@ extern char * yytext;
 #include "board.h"
 #include "tile_name.h"
 #include "common_header.h"
-int DEBUG = 1;
+int DEBUG = 0;
 int IS_ERROR = 0;
 struct CoordinateStruct make_coordinate(int row, int col);
 %}
@@ -64,20 +64,20 @@ LINE	: operator direction '.'								{make_move($1, $2);}
 		| direction '.'											{throw_error("Operation not specified. Choose an operation among {\"ADD\", \"SUBTRACT\", \"MULTIPLY\", \"DIVIDE\"}.");}
 		
 		| assign_token QUERY to_token COORDINATE '.'			{assign_value($2, $4.row-1, $4.col-1);}
-		| assign_token to_token COORDINATE '.'					{throw_error("Value not specified. Value must be a non negative integer.");}
-		| assign_token QUERY identifier COORDINATE '.'			{throw_error("\"TO\" keyword expected.");}
+		| assign_token to_token COORDINATE '.'					{throw_error("Value not specified. Please specify a non-negative integer value.");}
+		| assign_token QUERY identifier COORDINATE '.'			{throw_error("Expected keyword \"TO\".");}
 
 		| var_token identifier is_token COORDINATE '.'			{name_tile($2, $4.row-1, $4.col-1);}
-		| var_token KEYWORD is_token COORDINATE '.'				{throw_error("Variable name can not be a keyword.");}
-		| var_token KEYWORD COORDINATE '.'						{throw_error("Variable name can not be a keyword."); throw_error("\"IS\" keyword expected.");}
-		| var_token identifier identifier COORDINATE '.'		{throw_error("\"IS\" keyword expected.");}
+		| var_token KEYWORD is_token COORDINATE '.'				{throw_error("Keyword can not be a variable name.");}
+		| var_token KEYWORD COORDINATE '.'						{throw_error("Keyword can not be a variable name."); throw_error("Expected keyword \"IS\".");}
+		| var_token identifier identifier COORDINATE '.'		{throw_error("Expected keyword \"IS\".");}
 
 		| value_token in_token COORDINATE '.'					{
 																	int val = get_value($3.row-1, $3.col-1);
 																	if(val != -1) printf("2048> Value in <%d,%d> is %d\n", $3.row, $3.col, val);
 																}
-		| value_token identifier COORDINATE '.'					{throw_error("\"IN\" keyword expected.");}
-		| value_token COORDINATE '.'							{throw_error("\"IN\" keyword expected.");}
+		| value_token identifier COORDINATE '.'					{throw_error("Expected keyword \"IN\".");}
+		| value_token COORDINATE '.'							{throw_error("Expected keyword \"IN\".");}
 		;
 
 QUERY	: integer												{
@@ -89,8 +89,8 @@ QUERY	: integer												{
 																	int val = get_value($3.row-1, $3.col-1);
 																	$$ = val;
 																}
-		| value_token identifier COORDINATE						{throw_error("\"IN\" keyword expected."); $$ = -1;}
-		| value_token COORDINATE								{throw_error("\"IN\" keyword expected."); $$ = -1;}
+		| value_token identifier COORDINATE						{throw_error("Expected keyword \"IN\"."); $$ = -1;}
+		| value_token COORDINATE								{throw_error("Expected keyword \"IN\"."); $$ = -1;}
 		;
 	
 COORDINATE	: integer ',' integer								{
