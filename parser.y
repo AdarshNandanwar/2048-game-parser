@@ -118,11 +118,30 @@ KEYWORD	: operator												{;}
 %%                     
 /* C code */
 
+void case_error_helper(){
+	if(strcmp(yytext, "add") == 0) printf("Did you mean the keyword \"ADD\"?");
+	if(strcmp(yytext, "subtract") == 0) printf("Did you mean the keyword \"SUBTRACT\"?");
+	if(strcmp(yytext, "multiply") == 0) printf("Did you mean the keyword \"MULTIPLY\"?");
+	if(strcmp(yytext, "divide") == 0) printf("Did you mean the keyword \"DIVIDE\"?");
+	if(strcmp(yytext, "left") == 0) printf("Did you mean the keyword \"LEFT\"?");
+	if(strcmp(yytext, "right") == 0) printf("Did you mean the keyword \"RIGHT\"?");
+	if(strcmp(yytext, "up") == 0) printf("Did you mean the keyword \"UP\"?");
+	if(strcmp(yytext, "down") == 0) printf("Did you mean the keyword \"DOWN\"?");
+	if(strcmp(yytext, "assign") == 0) printf("Did you mean the keyword \"ASSIGN\"?");
+	if(strcmp(yytext, "to") == 0) printf("Did you mean the keyword \"TO\"?");
+	if(strcmp(yytext, "var") == 0) printf("Did you mean the keyword \"VAR\"?");
+	if(strcmp(yytext, "is") == 0) printf("Did you mean the keyword \"IS\"?");
+	if(strcmp(yytext, "value") == 0) printf("Did you mean the keyword \"VALUE\"?");
+	if(strcmp(yytext, "in") == 0) printf("Did you mean the keyword \"IN\"?");
+}
+
 void yyerror(char * msg) {
 	if(!strcmp(yytext, "\n")) return;
-	if(IS_ERROR) printf("       Syntax error at token \"%s\".\n", yytext);
-	else printf("ERROR: Syntax error at token \"%s\".\n", yytext);
+	if(IS_ERROR) printf("       Syntax error at token \"%s\". ", yytext);
+	else printf("ERROR: Syntax error at token \"%s\". ", yytext);
 	IS_ERROR = 1;
+	case_error_helper();
+	printf("\n");
 } 
 
 void throw_error(char * msg){
